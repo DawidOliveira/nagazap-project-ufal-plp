@@ -36,6 +36,9 @@ class LoginPageWidget extends StatelessWidget {
               style: TextStyle(color: AppColors.WHITE),
               textCapitalization: TextCapitalization.words,
               autofocus: true,
+              onFieldSubmitted: (value) async {
+                await controller.login(context);
+              },
               decoration: InputDecoration(hintText: 'Digite aqui seu nome...'),
               validator: (value) {
                 if (value!.length < 3) {
