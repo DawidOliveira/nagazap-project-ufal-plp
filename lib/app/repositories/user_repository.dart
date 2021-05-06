@@ -1,29 +1,25 @@
+import 'package:get_storage/get_storage.dart';
 import 'package:nagazap/app/shared/models/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class IUserRepository {
-  Future<bool> getUser();
+  bool getUser();
 }
 
 class UserRepository implements IUserRepository {
-  late User user;
+  User? user;
+  final GetStorage _gs;
 
-  UserRepository() {
+  UserRepository(this._gs) {
     getUser();
   }
 
   @override
-  Future<bool> getUser() async {
+  bool getUser() {
     try {
-      final ps = await SharedPreferences.getInstance();
-      if (ps.getString("user") == null || ps.getString("user")!.isEmpty) {
-        return false;
-      } else {
-        user = User.fromJson(ps.getString("user")!);
-        return true;
-      }
+      user = User.fromJson(_gs.read("user"));
+      if (user != null) return true;
+      return false;
     } catch (e) {
-      print(e);
       return false;
     }
   }

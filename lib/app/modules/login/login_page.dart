@@ -1,34 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nagazap/app/core/app_colors.dart';
 import 'package:nagazap/app/modules/login/login_controller.dart';
 import 'package:nagazap/app/modules/login/widgets/info_page_widget.dart';
 import 'package:nagazap/app/modules/login/widgets/login_page_widget.dart';
-import 'package:nagazap/app/repositories/user_repository.dart';
-import 'package:nagazap/app/services/auth_service.dart';
-import 'package:provider/provider.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
-    final controller =
-        LoginController(AuthService(context.watch<UserRepository>()));
     return Scaffold(
       backgroundColor: AppColors.PURPLE,
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: controller.pageController,
-          children: [
-            InfoPageWidget(),
-            LoginPageWidget(controller: controller),
-          ],
+      body: SafeArea(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: PageView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: controller.pageController,
+            children: [
+              InfoPageWidget(),
+              LoginPageWidget(controller: controller),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Container(

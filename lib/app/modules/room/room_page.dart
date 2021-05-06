@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:nagazap/app/shared/models/user.dart';
+import 'package:get/get.dart';
+import 'package:nagazap/app/modules/room/room_controller.dart';
+import 'package:nagazap/app/modules/room/widgets/form_message_widget.dart';
+import 'package:nagazap/app/modules/room/widgets/list_messages_widget.dart';
 
-class RoomPage extends StatefulWidget {
-  final User user;
+class RoomPage extends GetView<RoomController> {
+  final Map info;
 
-  const RoomPage({Key? key, required this.user}) : super(key: key);
-  @override
-  _RoomPageState createState() => _RoomPageState();
-}
+  const RoomPage({Key? key, required this.info}) : super(key: key);
 
-class _RoomPageState extends State<RoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.user.name),
+        title: Text(info['user'].name),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListMessagesWidget(),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 10.0,
+              left: 5.0,
+            ),
+            child: FormMessageWidget(
+              controller: controller,
+            ),
+          ),
+        ],
       ),
     );
   }

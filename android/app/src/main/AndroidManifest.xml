@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.dawidoliveira.nagazap">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="nagazap"
+        android:usesCleartextTraffic="true"
+        android:label="NagaZap"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

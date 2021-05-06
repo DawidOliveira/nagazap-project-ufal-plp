@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nagazap/app/modules/home/home_bindings.dart';
 import 'package:nagazap/app/modules/home/home_page.dart';
+import 'package:nagazap/app/modules/login/login_bindings.dart';
 import 'package:nagazap/app/modules/login/login_page.dart';
+import 'package:nagazap/app/modules/room/room_bindings.dart';
 import 'package:nagazap/app/modules/room/room_page.dart';
+import 'package:nagazap/app/modules/splash/splash_bindings.dart';
 import 'package:nagazap/app/modules/splash/splash_page.dart';
 import 'package:nagazap/app/shared/models/user.dart';
 
@@ -13,33 +18,30 @@ class Routes {
 }
 
 class AppRoutes {
-  static Route<dynamic> routes(RouteSettings settings) {
-    switch (settings.name) {
-      case Routes.SPLASH:
-        return MaterialPageRoute(
-          builder: (context) => SplashPage(),
-        );
-      case Routes.LOGIN:
-        return MaterialPageRoute(
-          builder: (context) => LoginPage(),
-        );
-      case Routes.HOME:
-        return MaterialPageRoute(
-          builder: (context) => HomePage(),
-        );
-      case Routes.ROOM:
-        final user = settings.arguments as User;
-        return MaterialPageRoute(
-          builder: (context) => RoomPage(
-            user: user,
-          ),
-        );
-      default:
-        return MaterialPageRoute(
-          builder: (context) => Center(
-            child: Text('Página não encontrada!'),
-          ),
-        );
-    }
-  }
+  AppRoutes._();
+
+  static List<GetPage<dynamic>>? getPages = [
+    GetPage(
+      name: Routes.SPLASH,
+      page: () => SplashPage(),
+      binding: SplashBindings(),
+    ),
+    GetPage(
+      name: Routes.HOME,
+      page: () => HomePage(),
+      binding: HomeBindings(),
+    ),
+    GetPage(
+      name: Routes.LOGIN,
+      page: () => LoginPage(),
+      binding: LoginBindings(),
+    ),
+    GetPage(
+      name: Routes.ROOM,
+      page: () => RoomPage(
+        info: Get.arguments,
+      ),
+      binding: RoomBindings(),
+    ),
+  ];
 }
