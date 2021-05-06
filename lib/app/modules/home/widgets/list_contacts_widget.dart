@@ -28,7 +28,7 @@ class ListContactsWidget extends StatelessWidget {
                     ? '${controller.me.value!.id.hashCode}${user.id.hashCode}'
                     : '${user.id.hashCode}${controller.me.value!.id.hashCode}';
                 final lastMessage =
-                    controller.messages.value[room]?.last?.text ?? '';
+                    controller.messages.value[room]?.last!.text ?? '';
                 final date = controller.messages.value[room]?.last!.date ?? '';
                 final lastDateMessage = date == ''
                     ? ''

@@ -40,14 +40,19 @@ class RoomController extends GetxController {
       final message = Message.fromMap(data);
       messages.value.insert(0, message);
       messages.notifyListeners();
-      attLastMessage(message);
       await _chatService.saveMessage(message.toMap());
+      await attLastMessage(message);
     });
   }
 
-  void attLastMessage(Message message) {
+  Future<void> attLastMessage(Message message) async {
+    if (Get.find<HomeController>().messages.value[roomInfo['room']] == null) {
+      Get.find<HomeController>().messages.value =
+          await _chatRepository.getLastMessagesForRoom();
+    }
     Get.find<HomeController>().messages.value[roomInfo['room']]?.add(message);
     Get.find<HomeController>().messages.notifyListeners();
+    print(Get.find<HomeController>().messages.value[roomInfo['room']]?.last);
   }
 
   Future addMessage() async {
@@ -65,9 +70,9 @@ class RoomController extends GetxController {
 
     messages.value.insert(0, message);
     messages.notifyListeners();
-    attLastMessage(message);
     _socketService.socket!.emit('sendMessage', message.toMap());
     textController.clear();
     await _chatService.saveMessage(message.toMap());
+    await attLastMessage(message);
   }
 }
