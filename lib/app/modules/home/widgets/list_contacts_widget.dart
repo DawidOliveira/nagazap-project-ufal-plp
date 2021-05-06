@@ -14,17 +14,17 @@ class ListContactsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: controller.users,
+      valueListenable: controller.filteredUsers,
       builder: (_, __, ___) => ListView.separated(
         shrinkWrap: true,
-        itemCount: controller.users.value.length,
+        itemCount: controller.filteredUsers.value.length,
         separatorBuilder: (_, __) => Divider(height: 0),
         itemBuilder: (__, index) {
           return ValueListenableBuilder(
               valueListenable: controller.messages,
               builder: (_, __, ___) {
-                final user = controller.users.value[index];
-                var room = controller.me.value!.id.hashCode < user.id.hashCode
+                final user = controller.filteredUsers.value[index];
+                var room = controller.me.value!.id.hashCode < user!.id.hashCode
                     ? '${controller.me.value!.id.hashCode}${user.id.hashCode}'
                     : '${user.id.hashCode}${controller.me.value!.id.hashCode}';
                 final lastMessage =

@@ -16,4 +16,14 @@ class AppTextStyles {
     fontSize: 15,
     color: AppColors.WHITE,
   );
+
+  static const TextStyle COMMON = TextStyle(
+    color: AppColors.PURPLE_ERROR,
+  );
+
+  static const TextStyle ERROR_PURPLE = TextStyle(
+    color: AppColors.PURPLE_ERROR,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
 }

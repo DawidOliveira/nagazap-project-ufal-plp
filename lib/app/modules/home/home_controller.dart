@@ -11,13 +11,15 @@ import 'package:nagazap/app/shared/models/user.dart';
 class HomeController extends GetxController {
   final isSearch = ValueNotifier<bool>(false);
   final searchName = TextEditingController();
-  final users = ValueNotifier<List<User>>([]);
+  final users = ValueNotifier<List<User?>>([]);
   final me = ValueNotifier<User?>(null);
   final UserRepository _userRepository;
   final AuthService _authService;
   final SocketService _socketService;
   final ChatRepository _chatRepository;
+
   final messages = ValueNotifier<Map<String, List<Message?>>>({});
+  final filteredUsers = ValueNotifier<List<User?>>([]);
 
   HomeController(this._userRepository, this._authService, this._socketService,
       this._chatRepository);
@@ -34,11 +36,20 @@ class HomeController extends GetxController {
     _socketService.socket!.on('allUsersBack', (data) {
       users.value = (data as List).map((e) => User.fromMap(e)).toList()
         ..removeWhere((element) => element.id == _userRepository.user!.id);
+      filteredUsers.value = users.value;
     });
     _socketService.socket!.on('userData', (data) {
       _userRepository.user = User.fromMap(data);
       me.value = _userRepository.user;
     });
+  }
+
+  void changeFilteredUsers(String text) {
+    filteredUsers.value = users.value.map((e) {
+      if (e!.name.toLowerCase().contains(text.toLowerCase())) return e;
+    }).toList()
+      ..removeWhere((element) => element == null);
+    filteredUsers.notifyListeners();
   }
 
   set setIsSearch(bool value) => isSearch.value = value;

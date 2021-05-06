@@ -6,6 +6,7 @@ import 'package:nagazap/app/modules/home/widgets/right_buttons_widget.dart';
 
 class AppBarWidget extends PreferredSize {
   final HomeController controller;
+
   AppBarWidget({required this.controller})
       : super(
           preferredSize: Size.fromHeight(60),
@@ -29,6 +30,7 @@ class AppBarWidget extends PreferredSize {
                         child: TextField(
                           autofocus: true,
                           controller: controller.searchName,
+                          onChanged: controller.changeFilteredUsers,
                           decoration: InputDecoration(
                             hintText: 'Procure por alguém...',
                           ),
