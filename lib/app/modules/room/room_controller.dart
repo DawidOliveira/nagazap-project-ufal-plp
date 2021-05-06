@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nagazap/app/modules/home/home_controller.dart';
 import 'package:nagazap/app/repositories/chat_repository.dart';
 import 'package:nagazap/app/services/chat_service.dart';
 import 'package:nagazap/app/services/socket_service.dart';
@@ -21,16 +22,32 @@ class RoomController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+
+    await initMessages();
+
+    comunicationSocket();
+  }
+
+  Future<void> initMessages() async {
     messages.value = (await _chatRepository.getMessages())
         .where((element) => element.room == roomInfo['room'])
         .toList();
     messages.value = messages.value.reversed.toList();
+  }
+
+  void comunicationSocket() {
     _socketService.socket!.on('receiveMessage', (data) async {
       final message = Message.fromMap(data);
       messages.value.insert(0, message);
       messages.notifyListeners();
+      attLastMessage(message);
       await _chatService.saveMessage(message.toMap());
     });
+  }
+
+  void attLastMessage(Message message) {
+    Get.find<HomeController>().messages.value[roomInfo['room']]?.add(message);
+    Get.find<HomeController>().messages.notifyListeners();
   }
 
   Future addMessage() async {
@@ -48,6 +65,7 @@ class RoomController extends GetxController {
 
     messages.value.insert(0, message);
     messages.notifyListeners();
+    attLastMessage(message);
     _socketService.socket!.emit('sendMessage', message.toMap());
     textController.clear();
     await _chatService.saveMessage(message.toMap());

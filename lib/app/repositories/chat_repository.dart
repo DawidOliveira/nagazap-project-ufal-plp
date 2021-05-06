@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:nagazap/app/shared/models/message.dart';
@@ -32,20 +31,34 @@ class ChatRepository {
     }
   }
 
-  Future<List<Map<String, Message>>> getMessagesForRoom() async {
+  Future<Map<String, List<Message?>>> getLastMessagesForRoom() async {
     try {
       final messages = await getMessages();
+      final List<String> rooms = [];
+      final msgs = Map<String, List<Message?>>();
 
-      final response = messages
-          .map((e) => {
-                e.room: e,
-              })
-          .toList();
+      rooms.addAll(
+        messages.map((e) {
+          if (!rooms.contains(e.room)) {
+            return e.room;
+          }
+          return '';
+        }),
+      );
+      rooms.removeWhere((element) => element == '');
 
-      return response;
+      rooms.forEach((element) {
+        msgs[element] = messages.map((e) {
+          if (e.room == element) {
+            return e;
+          }
+        }).toList()
+          ..removeWhere((element) => element == null);
+      });
+      return msgs;
     } catch (e) {
       print(e);
-      return List.empty();
+      return Map();
     }
   }
 }

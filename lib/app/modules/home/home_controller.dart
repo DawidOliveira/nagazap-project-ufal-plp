@@ -17,7 +17,7 @@ class HomeController extends GetxController {
   final AuthService _authService;
   final SocketService _socketService;
   final ChatRepository _chatRepository;
-  final messages = ValueNotifier<List<Map<String, Message>>>([]);
+  final messages = ValueNotifier<Map<String, List<Message?>>>({});
 
   HomeController(this._userRepository, this._authService, this._socketService,
       this._chatRepository);
@@ -25,7 +25,11 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    messages.value = await _chatRepository.getMessagesForRoom();
+    messages.value = await _chatRepository.getLastMessagesForRoom();
+    socketInit();
+  }
+
+  void socketInit() {
     _socketService.socket!.emit('allUsers');
     _socketService.socket!.on('allUsersBack', (data) {
       users.value = (data as List).map((e) => User.fromMap(e)).toList()

@@ -9,8 +9,9 @@ class HomeBindings implements Bindings {
   @override
   void dependencies() {
     Get.put(SocketService(Get.find<UserRepository>()));
-    Get.lazyPut(
-      () => HomeController(Get.find<UserRepository>(), Get.find<AuthService>(),
+    Get.put(ChatRepository());
+    Get.put(
+      HomeController(Get.find<UserRepository>(), Get.find<AuthService>(),
           Get.find<SocketService>(), Get.find<ChatRepository>()),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nagazap/app/modules/home/home_bindings.dart';
 import 'package:nagazap/app/modules/home/home_page.dart';
@@ -8,7 +7,6 @@ import 'package:nagazap/app/modules/room/room_bindings.dart';
 import 'package:nagazap/app/modules/room/room_page.dart';
 import 'package:nagazap/app/modules/splash/splash_bindings.dart';
 import 'package:nagazap/app/modules/splash/splash_page.dart';
-import 'package:nagazap/app/shared/models/user.dart';
 
 class Routes {
   static const SPLASH = '/';

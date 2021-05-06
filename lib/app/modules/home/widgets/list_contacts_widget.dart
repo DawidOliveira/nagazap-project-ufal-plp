@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nagazap/app/modules/home/home_controller.dart';
 import 'package:nagazap/app/modules/home/widgets/item_contact_widget.dart';
 
@@ -19,8 +20,27 @@ class ListContactsWidget extends StatelessWidget {
         itemCount: controller.users.value.length,
         separatorBuilder: (_, __) => Divider(height: 0),
         itemBuilder: (__, index) {
-          final user = controller.users.value[index];
-          return ItemContactWidget(user: user, controller: controller);
+          return ValueListenableBuilder(
+              valueListenable: controller.messages,
+              builder: (_, __, ___) {
+                final user = controller.users.value[index];
+                var room = controller.me.value!.id.hashCode < user.id.hashCode
+                    ? '${controller.me.value!.id.hashCode}${user.id.hashCode}'
+                    : '${user.id.hashCode}${controller.me.value!.id.hashCode}';
+                final lastMessage =
+                    controller.messages.value[room]?.last?.text ?? '';
+                final date = controller.messages.value[room]?.last!.date ?? '';
+                final lastDateMessage = date == ''
+                    ? ''
+                    : DateFormat('HH:mm').format(date as DateTime);
+                return ItemContactWidget(
+                  user: user,
+                  controller: controller,
+                  lastMessage: lastMessage,
+                  room: room,
+                  lastDateMessage: lastDateMessage,
+                );
+              });
         },
       ),
     );
