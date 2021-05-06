@@ -5,14 +5,18 @@ class Message {
   final String text;
   final String room;
   final String senderId;
+  final String senderSocketId;
   final String receiverId;
+  final String receiverSocketId;
   final DateTime date;
   Message({
     required this.id,
     required this.text,
     required this.room,
     required this.senderId,
+    required this.senderSocketId,
     required this.receiverId,
+    required this.receiverSocketId,
     required this.date,
   });
 
@@ -21,7 +25,9 @@ class Message {
     String? text,
     String? room,
     String? senderId,
+    String? senderSocketId,
     String? receiverId,
+    String? receiverSocketId,
     DateTime? date,
   }) {
     return Message(
@@ -29,7 +35,9 @@ class Message {
       text: text ?? this.text,
       room: room ?? this.room,
       senderId: senderId ?? this.senderId,
+      senderSocketId: senderSocketId ?? this.senderSocketId,
       receiverId: receiverId ?? this.receiverId,
+      receiverSocketId: receiverSocketId ?? this.receiverSocketId,
       date: date ?? this.date,
     );
   }
@@ -40,7 +48,9 @@ class Message {
       'text': text,
       'room': room,
       'senderId': senderId,
+      'senderSocketId': senderSocketId,
       'receiverId': receiverId,
+      'receiverSocketId': receiverSocketId,
       'date': date.millisecondsSinceEpoch,
     };
   }
@@ -51,7 +61,9 @@ class Message {
       text: map['text'],
       room: map['room'],
       senderId: map['senderId'],
+      senderSocketId: map['senderSocketId'],
       receiverId: map['receiverId'],
+      receiverSocketId: map['receiverSocketId'],
       date: DateTime.fromMillisecondsSinceEpoch(map['date']),
     );
   }
@@ -63,7 +75,7 @@ class Message {
 
   @override
   String toString() {
-    return 'Message(id: $id, text: $text, room: $room, senderId: $senderId, receiverId: $receiverId, date: $date)';
+    return 'Message(id: $id, text: $text, room: $room, senderId: $senderId, senderSocketId: $senderSocketId, receiverId: $receiverId, receiverSocketId: $receiverSocketId, date: $date)';
   }
 
   @override
@@ -75,7 +87,9 @@ class Message {
         other.text == text &&
         other.room == room &&
         other.senderId == senderId &&
+        other.senderSocketId == senderSocketId &&
         other.receiverId == receiverId &&
+        other.receiverSocketId == receiverSocketId &&
         other.date == date;
   }
 
@@ -85,7 +99,9 @@ class Message {
         text.hashCode ^
         room.hashCode ^
         senderId.hashCode ^
+        senderSocketId.hashCode ^
         receiverId.hashCode ^
+        receiverSocketId.hashCode ^
         date.hashCode;
   }
 }

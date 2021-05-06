@@ -19,7 +19,6 @@ class ChatService {
 
   Future<File> saveMessage(Map<String, dynamic> message) async {
     final file = await _localFile;
-    print(message);
     final msg = Message.fromMap(message);
 
     // Write the file.

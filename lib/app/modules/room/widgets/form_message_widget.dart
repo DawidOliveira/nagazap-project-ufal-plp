@@ -14,7 +14,9 @@ class FormMessageWidget extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: InputMessageWidget(),
+          child: InputMessageWidget(
+            controller: controller,
+          ),
         ),
         IconButton(
           icon: Icon(Icons.send),

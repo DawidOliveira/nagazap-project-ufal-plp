@@ -11,4 +11,9 @@ class AppTextStyles {
     fontSize: 10,
     color: AppColors.GREY,
   );
+
+  static const TextStyle MESSAGE = TextStyle(
+    fontSize: 15,
+    color: AppColors.WHITE,
+  );
 }

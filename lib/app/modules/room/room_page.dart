@@ -18,7 +18,9 @@ class RoomPage extends GetView<RoomController> {
       body: Column(
         children: [
           Expanded(
-            child: ListMessagesWidget(),
+            child: ListMessagesWidget(
+              controller: controller,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(

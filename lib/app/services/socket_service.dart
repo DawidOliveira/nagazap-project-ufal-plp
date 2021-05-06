@@ -1,5 +1,4 @@
 import 'package:nagazap/app/repositories/user_repository.dart';
-import 'package:nagazap/app/shared/models/user.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketService {
@@ -12,7 +11,7 @@ class SocketService {
 
   void init() {
     socket = IO.io(
-        'http://192.168.2.144:3000',
+        'https://nagazap-backend.herokuapp.com/',
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .disableAutoConnect()
@@ -21,9 +20,6 @@ class SocketService {
     socket!.onConnect((data) {
       print('conectado');
       socket!.emit('user', _userRepository.user!.toMap());
-    });
-    socket!.on('userData', (data) {
-      _userRepository.user = User.fromMap(data);
     });
   }
 }

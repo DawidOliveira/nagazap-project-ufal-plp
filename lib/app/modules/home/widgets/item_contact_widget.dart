@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nagazap/app/core/app_route.dart';
 import 'package:nagazap/app/modules/home/home_controller.dart';
 import 'package:nagazap/app/shared/models/user.dart';
@@ -15,6 +16,9 @@ class ItemContactWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var room = controller.me.value!.id.hashCode < user.id.hashCode
+        ? '${controller.me.value!.id.hashCode}${user.id.hashCode}'
+        : '${user.id.hashCode}${controller.me.value!.id.hashCode}';
     return ListTile(
       onTap: () {
         Navigator.of(context).pushNamed(
@@ -22,15 +26,16 @@ class ItemContactWidget extends StatelessWidget {
           arguments: {
             'user': user,
             'me': controller.me.value,
-            'room': controller.me.value!.id.hashCode < user.id.hashCode
-                ? '${controller.me.value!.id.hashCode}${user.id.hashCode}'
-                : '${user.id.hashCode}${controller.me.value!.id.hashCode}'
+            'room': room,
           },
         );
       },
       title: Text(user.name),
+      subtitle: Text(
+          controller.messages.value.map((e) => e[room]).toList().last!.text),
       leading: Icon(Icons.person),
-      trailing: Text('22:03'),
+      trailing: Text(DateFormat('HH:mm').format(
+          controller.messages.value.map((e) => e[room]).toList().last!.date)),
     );
   }
 }

@@ -21,17 +21,30 @@ class ChatRepository {
   Future<List<Message>> getMessages() async {
     try {
       final file = await _localFile;
-
-      print((await file.readAsString()).split(' ')
-        ..removeWhere((element) => element.isEmpty));
-      List<Message> contents = (await file.readAsString())
-          .split(' ')
-          .map((e) => Message.fromJson(e))
-          .toList();
-      print(contents);
-
-      return contents;
+      final contents = (await file.readAsString()).split(' ');
+      contents.removeWhere((element) => element.isEmpty);
+      List<Message> messages =
+          contents.map((e) => Message.fromJson(e)).toList();
+      return messages;
     } catch (e) {
+      print(e);
+      return List.empty();
+    }
+  }
+
+  Future<List<Map<String, Message>>> getMessagesForRoom() async {
+    try {
+      final messages = await getMessages();
+
+      final response = messages
+          .map((e) => {
+                e.room: e,
+              })
+          .toList();
+
+      return response;
+    } catch (e) {
+      print(e);
       return List.empty();
     }
   }

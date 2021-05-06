@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:nagazap/app/modules/home/home_controller.dart';
 import 'package:nagazap/app/modules/home/widgets/appbar_widget.dart';
 import 'package:nagazap/app/modules/home/widgets/list_contacts_widget.dart';
-import 'package:nagazap/app/modules/home/widgets/nav_widget.dart';
 
 class HomePage extends GetView<HomeController> {
   @override
@@ -13,7 +12,6 @@ class HomePage extends GetView<HomeController> {
         controller: controller,
       ),
       body: ListContactsWidget(controller: controller),
-      bottomNavigationBar: NavWidget(),
     );
   }
 }
